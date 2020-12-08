@@ -50,26 +50,19 @@ app.get('/mario',async(req,res)=>{
 app.patch('/mario/:id',async(req,res)=>{
       const id  = req.params.id;
       const body = req.body;
+      const existingdoc = await marioModel.findById(id)
       try{
-          if(body.name){
-       const result   =await marioModel.updateOne({_id:id},{ $set:{
-                  name:req.body.name,
-               //   weight:req.body.weight
-                 }
-                })
-                res.status(200).send({name:req.body.name}) 
-            }
-    //const result = await marioModel.updateOne({_id:id},body);
-            else if(body.weight){
-                const result   =await marioModel.updateOne({_id:id},{ $set:{
-                    weight:req.body.weight,
-                 //   weight:req.body.weight
-                   }
-                  })
-                  res.status(200).send({weight:req.body.weight}) 
-            }  
-      
-        // res.status(200).send(req.body);
+           if(isNullOrUndefined(body.name) && isNullOrUndefined(body)){
+                     res.status(400).send({message:"both name and weight are missing"})
+           }else{
+               if(!isNullOrUndefined(body.name)){
+                    existingdoc.name = body.name
+               }
+               if(!isNullOrUndefined(body.weight)){
+                existingdoc.weight = body.weight
+           }
+           }
+            res.status(200).send(existingdoc);
       }catch(err){
                  res.status(400).send({message:err.message});
       }
