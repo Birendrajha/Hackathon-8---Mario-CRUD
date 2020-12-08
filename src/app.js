@@ -58,13 +58,17 @@ app.patch('/mario/:id',async(req,res)=>{
            }else{
                if(!isNullOrUndefined(body.name)){
                     existingdoc.name = body.name
+                    await existingdoc.save();
+                    res.status(200).send(existingdoc);
                }
                if(!isNullOrUndefined(body.weight)){
                 existingdoc.weight = body.weight
+                await existingdoc.save();
+                res.status(200).send(existingdoc);
            }
            }
-           await existingdoc.save();
-            res.status(200).send(existingdoc);
+        //    await existingdoc.save();
+        //     res.status(200).send(existingdoc);
       }catch(err){
                  res.status(400).send({message:err.message});
       }
