@@ -59,7 +59,7 @@ app.patch('/mario/:id',async(req,res)=>{
     const result = await marioModel.updateOne({_id:id},body);
               
       // await  result.save();
-         res.status(200).send(result)
+         res.status(200).send(req.body);
       }catch(err){
                  res.status(400).send({message:err.message});
       }
