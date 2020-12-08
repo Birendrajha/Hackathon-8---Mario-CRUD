@@ -50,8 +50,9 @@ app.get('/mario',async(req,res)=>{
 app.patch('/mario/:id',async(req,res)=>{
       const id  = req.params.id;
       const body = req.body;
-      const existingdoc = await marioModel.findById(id)
+      
       try{
+        const existingdoc = await marioModel.findById(id)
            if(isNullOrUndefined(body.name) && isNullOrUndefined(body.weight)){
                      res.status(400).send({message:"both name and weight are missing"})
            }else{
